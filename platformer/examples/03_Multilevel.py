@@ -6,7 +6,6 @@ class Platformer(PlatformerBase):
     def __init__(self):
         super().__init__()
 
-        self.score = 0
         self.collect_coin_sound = arcade.load_sound(":resources:sounds/coin1.wav")
 
         self.level = 0
