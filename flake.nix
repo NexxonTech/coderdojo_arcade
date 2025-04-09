@@ -11,9 +11,23 @@
         pyenv = with pkgs; python3.withPackages (pypkgs: with pypkgs; [
           (import nix/python-arcade.nix { inherit pkgs pypkgs; })
         ]);
+        starterpack = pkgs.stdenvNoCC.mkDerivation {
+          pname = "coderdojo_arcade_starterpack";
+          version = "0.1.0";
+
+          src = ./.;
+
+          installPhase = ''
+            mkdir coderdojo_arcade_starterpack/
+            cp -r assets/ platformer/ coderdojo_arcade_starterpack/
+
+            mkdir $out
+            ${pkgs.zip}/bin/zip -r $out/CoderDojoArcadeStarterpack.zip coderdojo_arcade_starterpack/
+          '';
+        };
       in
         {
-          packages.pyenv = pyenv;
+          defaultPackage = starterpack;
           devShell = pkgs.mkShell {
             name = "coderdojo_arcade_dev";
             packages = with pkgs; [
